@@ -2,8 +2,9 @@
   <div class="app-wrapper">
     <div class="app">
       <Navigation />
+       <router-view />
       <FooterVue />
-      <router-view />
+     
     </div>
   </div>
 </template>
@@ -45,14 +46,26 @@ export default {
   margin: 0 auto;
 }
 
-.link {
+link {
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
   color: black;
 }
-
 .link-light {
   color: #fff;
 }
+.arrow {
+  margin-left: 8px;
+  width: 12px;
+  path {
+    fill: #000;
+  }
+}
+.arrow-light {
+  path {
+    fill: #fff;
+  }
+}
+
 </style>
