@@ -1,12 +1,12 @@
 <template>
-  <div class="blog-wrapper no-user" >
+  <div class="blog-wrapper no-user " >
     <div class="blog-content">
       <div>
         <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
         <h2 v-else>{{ post.blogTitle }}</h2>
         <p v-if="post.welcomeScreen">{{ post.blogPost }}</p>
         <p class="content-preview" v-else>{{ post.blogHTML }}</p>
-        <router-link class="link link-light" v-if="post.welcomeScreen" to="#"
+        <router-link class="link link-light " v-if="post.welcomeScreen" to="#"
           >Login/Register<Arrow class="arrow arrow-light" />
         </router-link>
         <router-link v-else to="#">
