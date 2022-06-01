@@ -3,10 +3,9 @@
     <form class="login">
       <p class="login-register">
         Don't have an account?
-        <router-link
-          class="router-link"
-          :to="{ name: 'Register' }"
-        >Register</router-link>
+        <router-link class="router-link" :to="{ name: 'Register' }"
+          >Register</router-link
+        >
       </p>
       <h2>Login to vueBlogs</h2>
       <div class="inputs">
@@ -15,10 +14,12 @@
           <email class="icon" />
         </div>
         <div class="input">
-          <input type="text" placeholder="Password" v-model="password" />
+          <input v-if="showPassword" type="text"  v-model="password" />
+          <input v-else type="password" placeholder="Password" v-model="password" />
           <password class="icon" />
         </div>
-          <div v-show="error" class="error">{{ this.errorMsg }}</div>
+
+        <div v-show="error" class="error">{{ this.errorMsg }}</div>
       </div>
       <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }"
         >Forgot your password?</router-link
@@ -33,8 +34,6 @@
 <script>
 import email from "../assets/Icons/envelope-regular.svg";
 import password from "../assets/Icons/lock-alt-solid.svg";
-import firebase from "firebase/app";
-import "firebase/auth";
 export default {
   name: "Login",
   components: { email, password },
@@ -42,24 +41,33 @@ export default {
     return {
       email: "",
       password: "",
-      error:null,
-      errorMsg:""
+      error: null,
+      errorMsg: "",
     };
   },
-    methods: {
-    signIn() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push({ name: "Home" });
-          this.error = false;
-          this.errorMsg = "";
-        })
-        .catch((err) => {
-          this.error = true;
-          this.errorMsg = err.message;
-        });
+  methods: {
+    async signIn(e) {
+      e.preventDefault();
+      try {
+        const res = await this.axios.post(
+          `https://multi-user-blog-backend.herokuapp.com/api/auth/local`,
+          {
+            identifier: this.email,
+            password: this.password,
+          }
+        );
+        const { jwt } = res.data;
+        window.localStorage.setItem("jwt", jwt);
+        this.$store.dispatch("getCurrentUser");
+        this.$router.push({ name: "Home" });
+        this.error = false;
+        this.errorMsg = "";
+      } catch (error) {
+        console.log(error);
+        this.error = true;
+        this.password = "";
+        this.errorMsg = error.message;
+      }
     },
   },
 };

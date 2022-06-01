@@ -1,18 +1,19 @@
 <template>
   <div class="blog-card">
-    <div v-show="editPost" class="icons">
-      <div class="icon">
+    <div v-show="editPost&&author" class="icons">
+      <div @click="editBlog" class="icon">
         <Edit class="edit" />
       </div>
-      <div class="icon">
+     <div @click="deletePost" class="icon">
         <Delete class="delete" />
       </div>
     </div>
-    <img :src="require(`../assets/blogCards/${post.blogCoverPhoto}.jpg`)" />
+    <img :src='`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`' />
     <div class="info">
       <h4>{{ post.blogTitle }}</h4>
       <h6>Posted on: {{ post.blogDate }}</h6>
-      <router-link class="link" to="#">
+      <h6>Author: {{ post.blogAuthor }}</h6>
+      <router-link class="link" :to="{ name: 'ViewBlog', params: { blogID: post.blogID } }">
         View The Post<Arrow class="arrow"
       /></router-link>
     </div>
@@ -32,9 +33,22 @@ export default {
     Delete,
   },
   computed:{
+    
     editPost(){
       return this.$store.state.editPost;
+    },
+    author(){
+      return this.post.blogEmail===this.$store.state.profileEmail
     }
+  },
+  methods:{
+    deletePost() {
+      console.log('hello');
+      this.$store.dispatch("deletePost", this.post.blogID);
+    },
+    editBlog() {
+      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
+    },
   }
 };
 </script>

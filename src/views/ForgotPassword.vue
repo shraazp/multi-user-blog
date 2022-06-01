@@ -34,35 +34,38 @@
 import email from "../assets/Icons/envelope-regular.svg";
 import Modal from "../components/Modal.vue";
 import Loading from "../components/Loading";
-import firebase from "firebase/app";
-import "firebase/auth";
 export default {
   name: "ForgotPassword",
   components: {
     email,
     Modal,
-    Loading
+    Loading,
   },
-  methods:{resetPassword() {
+  methods: {
+    resetPassword(e) {
+      e.preventDefault();
       this.loading = true;
-      firebase
-        .auth()
-        .sendPasswordResetEmail(this.email)
+      this.axios
+        .post(`https://multi-user-blog-backend.herokuapp.com/api/auth/forgot-password`, {
+          email: this.email,
+        })
         .then(() => {
-          this.modalMessage = "If your account exists, you will receive a email";
+          this.modalMessage =
+            "If your account exists, you will receive a email";
           this.loading = false;
           this.modalActive = true;
         })
         .catch((err) => {
+          console.log(err);
           this.modalMessage = err.message;
           this.loading = false;
           this.modalActive = true;
         });
     },
-      closeModal(){
-          this.modalActive=!this.modalActive;
-          this.email="";
-      }
+    closeModal() {
+      this.modalActive = !this.modalActive;
+      this.email = "";
+    },
   },
   data() {
     return {

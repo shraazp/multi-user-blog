@@ -1,7 +1,7 @@
 <template>
   <div class="blog-card-wrap">
     <div class="blog-cards container">
-      <div class="toggle-edit">
+      <div v-if="user" class="toggle-edit">
         <span>Toggle editing post</span>
         <input type="checkbox" v-model="editPost" />
       </div>
@@ -19,9 +19,15 @@ import BlogCard from "../components/BlogCard.vue";
 export default {
   name: "Blogs",
   components: { BlogCard },
+   created() {
+        this.$store.dispatch("getPost");
+   },
   computed: {
     sampleBlogCards() {
-      return this.$store.state.sampleBlogCards;
+      return this.$store.state.blogPosts;
+    },
+     user() {
+      return this.$store.state.user;
     },
     editPost:{
       get(){
