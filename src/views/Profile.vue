@@ -82,6 +82,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .profile {
+  margin-top:80px;
   .container {
     max-width: 1000px;
     padding: 60px 25px;

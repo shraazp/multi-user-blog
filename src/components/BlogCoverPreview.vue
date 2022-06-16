@@ -2,9 +2,10 @@
   <div class="modal" ref="modal">
     <div class="modal-content">
       <close @click="closePreview" class="icon" />
-      <img :src='`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`' alt="" />
+      <img :src='`${this.blogCoverPhoto}`' alt="" />
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -20,8 +21,6 @@ export default {
   },
   computed: {
     blogCoverPhoto() {
-      console.log('hi')
-      console.log(this.$store.state.blogPhotoFileURL)
       return this.$store.state.blogPhotoFileURL;
     },
   },

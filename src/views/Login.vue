@@ -14,8 +14,11 @@
           <email class="icon" />
         </div>
         <div class="input">
-          <input v-if="showPassword" type="text"  v-model="password" />
-          <input v-else type="password" placeholder="Password" v-model="password" />
+          <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" />
+            <span class="eyeicon" @click="showPassword = !showPassword">
+            <i class="fa " :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
+      </span>
+
           <password class="icon" />
         </div>
 
@@ -27,6 +30,8 @@
       <button @click.prevent="signIn">Sign In</button>
       <div class="angle"></div>
     </form>
+
+    
     <div class="background"></div>
   </div>
 </template>
@@ -43,6 +48,7 @@ export default {
       password: "",
       error: null,
       errorMsg: "",
+      showPassword: false,
     };
   },
   methods: {
@@ -50,7 +56,7 @@ export default {
       e.preventDefault();
       try {
         const res = await this.axios.post(
-          `https://multi-user-blog-backend.herokuapp.com/api/auth/local`,
+          `http://localhost:1337/api/auth/local`,
           {
             identifier: this.email,
             password: this.password,
@@ -135,6 +141,12 @@ export default {
           width: 12px;
           position: absolute;
           left: 6px;
+        }
+        .eyeicon {
+          width: 12px;
+          position: absolute;
+          right: 6px;
+          margin-right: 4px;
         }
       }
     }

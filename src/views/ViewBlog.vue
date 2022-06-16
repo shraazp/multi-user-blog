@@ -4,7 +4,7 @@
       <h2>{{ this.currentBlog[0].blogTitle }}</h2>
       <h4>Posted on: {{ new Date(this.currentBlog[0].blogDate).toLocaleString("en-us", { dateStyle: "long" }) }}</h4>
       <h4>Author: {{this.currentBlog[0].blogAuthor}}</h4>
-      <img class="blog-image" :src='`https://multi-user-blog-backend.herokuapp.com${this.currentBlog[0].blogCoverPhoto}`' />
+      <img class="blog-image" :src='`http://localhost:1337${this.currentBlog[0].blogCoverPhoto}`' />
       <div class="post-content ql-editor" v-html="this.currentBlog[0].blogHTML"></div>
     </div>
   </div>
@@ -28,6 +28,7 @@ export default {
 
 <style lang="scss">
 .post-view {
+  margin-top:80px;
   h2{
     font-weight:500;
   }

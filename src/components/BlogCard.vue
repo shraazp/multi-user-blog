@@ -1,19 +1,23 @@
 <template>
-  <div class="blog-card">
-    <div v-show="editPost&&author" class="icons">
+  <div class="blog-card" >
+    <deleteModal v-if="modalActive" :blogId="this.post.blogID" v-on:close-modal="closeModal" />
+    <div v-show="editPost && author" class="icons">
       <div @click="editBlog" class="icon">
         <Edit class="edit" />
       </div>
-     <div @click="deletePost" class="icon">
+      <div @click="modalActive=!modalActive" class="icon">
         <Delete class="delete" />
       </div>
     </div>
-    <img :src='`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`' />
-    <div class="info">
+    <img :src="`http://localhost:1337${post.blogCoverPhoto}`" />
+    <div class="info" @click="viewPost">
       <h4>{{ post.blogTitle }}</h4>
       <h6>Posted on: {{ post.blogDate }}</h6>
       <h6>Author: {{ post.blogAuthor }}</h6>
-      <router-link class="link" :to="{ name: 'ViewBlog', params: { blogID: post.blogID } }">
+      <router-link
+        class="link"
+        :to="{ name: 'ViewBlog', params: { blogID: post.blogID } }"
+      >
         View The Post<Arrow class="arrow"
       /></router-link>
     </div>
@@ -24,13 +28,20 @@
 import Arrow from "../assets/Icons/arrow-right-light.svg";
 import Edit from "../assets/Icons/edit-regular.svg";
 import Delete from "../assets/Icons/trash-regular.svg";
+import deleteModal from "./deleteModal.vue";
 export default {
   name: "blogCard",
   props: ["post"],
+  data(){
+    return{
+modalActive:false
+    }
+  },
   components: {
     Arrow,
     Edit,
     Delete,
+    deleteModal
   },
   computed:{
     
@@ -42,13 +53,15 @@ export default {
     }
   },
   methods:{
-    deletePost() {
-      console.log('hello');
-      this.$store.dispatch("deletePost", this.post.blogID);
-    },
     editBlog() {
       this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
     },
+    closeModal() {
+      this.modalActive = !this.modalActive;
+    },
+    viewPost(){
+       this.$router.push({ name: 'ViewBlog', params: { blogID: this.post.blogID } });
+    }
   }
 };
 </script>
@@ -62,10 +75,10 @@ export default {
   border-radius: 8px;
   background-color: #fff;
   min-height: 420px;
-  transition: 0.5s ease all;
-
+ transition:  0.2s ease;
   &:hover {
-    transform: rotateZ(-1deg) scale(1.01);
+    transform: scale(1.1); 
+    z-index:99;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.6);
   }
@@ -127,7 +140,7 @@ export default {
       font-weight: 300;
     }
     h6 {
-      padding-bottom: 20px;
+      padding-bottom: 16px;
       font-weight: 400;
       font-size: 12px;
     }
@@ -141,11 +154,11 @@ export default {
       padding-bottom: 4px;
       transition: 0.5s ease-in all;
 
-      &:hover{
-           color: rgba(48, 48, 48, 0.8);
+      &:hover {
+        color: rgba(48, 48, 48, 0.8);
       }
-      .arrow{
-          width:10px;
+      .arrow {
+        width: 10px;
       }
     }
   }

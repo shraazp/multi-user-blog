@@ -15,6 +15,7 @@ export default new Vuex.Store({
         blogPhotoName: "",
         blogAuthor: "",
         blogEmail: "",
+        subject:"",
         blogID: "",
         blogPhotoFileURL: null,
         blogPhotoPreview: null,
@@ -48,7 +49,6 @@ export default new Vuex.Store({
             state.blogPhotoFileURL = payload;
         },
         openPhotoPreview(state) {
-            console.log('namaste')
             state.blogPhotoPreview = !state.blogPhotoPreview;
         },
         toggleEditPost(state, payload) {
@@ -59,6 +59,7 @@ export default new Vuex.Store({
             state.blogHTML = payload.blogHTML;
             state.blogPhotoFileURL = payload.blogCoverPhoto;
             state.blogPhotoName = payload.blogCoverPhotoName;
+            state.subject=payload.subject;
         },
         filterBlogPost(state, payload) {
             state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload);
@@ -93,7 +94,7 @@ export default new Vuex.Store({
             const query = qs.stringify({
                 populate: '*',
             }, {encodeValuesOnly: true});
-            const dbResults = await(await axios.get(`https://multi-user-blog-backend.herokuapp.com/api/blogs?${query}`)).data.data;
+            const dbResults = await(await axios.get(`http://localhost:1337/api/blogs?${query}`)).data.data;
             dbResults.forEach((doc) => {
                 if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
                     const data = {
@@ -104,7 +105,8 @@ export default new Vuex.Store({
                         blogDate: doc.attributes.date,
                         blogCoverPhotoName: doc.attributes.blogCoverPhotoName,
                         blogAuthor: doc.attributes.authorName,
-                        blogEmail: doc.attributes.author
+                        blogEmail: doc.attributes.author,
+                        subject:doc.attributes.subject
                     };
                     state.blogPosts.push(data);
                 }
@@ -126,7 +128,7 @@ export default new Vuex.Store({
             commit
         }, payload) {
             const token = window.localStorage.getItem('jwt');
-            const {data} = await axios.delete(`https://multi-user-blog-backend.herokuapp.com/api/blogs/${payload}`, {
+            const {data} = await axios.delete(`http://localhost:1337/api/blogs/${payload}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -136,7 +138,7 @@ export default new Vuex.Store({
         },
         async getCurrentUser({commit}) {
             const token = window.localStorage.getItem('jwt')
-            const {data} = await axios.get(' https://multi-user-blog-backend.herokuapp.com/api/users/me', {
+            const {data} = await axios.get(' http://localhost:1337/api/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -155,7 +157,7 @@ export default new Vuex.Store({
             formData.append('firstName', state.profileFirstName);
             formData.append('lastName', state.profileLastName);
             try {
-                await axios.put(`https://multi-user-blog-backend.herokuapp.com/api/users/${
+                await axios.put(`http://localhost:1337/api/users/${
                     state.profileId
                 }`, formData, {
                     headers: {

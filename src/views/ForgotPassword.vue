@@ -46,7 +46,7 @@ export default {
       e.preventDefault();
       this.loading = true;
       this.axios
-        .post(`https://multi-user-blog-backend.herokuapp.com/api/auth/forgot-password`, {
+        .post(`http://localhost:1337/api/auth/forgot-password`, {
           email: this.email,
         })
         .then(() => {

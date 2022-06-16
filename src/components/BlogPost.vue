@@ -19,7 +19,7 @@
         v-if="post.welcomeScreen"
         :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
       />
-      <img  v-else :src='`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`'  alt="" />
+      <img  v-else :src='`http://localhost:1337${post.blogCoverPhoto}`'  alt="" />
     </div>
   </div>
 </template>

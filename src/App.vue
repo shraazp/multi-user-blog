@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigation v-if="!navigation"/>
+    <Navigation v-if="!navigation"/>
       <router-view />
       <FooterVue v-if="!navigation" />
     </div>
@@ -65,6 +65,7 @@ a {
   flex-direction: column;
   min-height: 100vh;
 }
+
 
 .container {
   max-width: 1440px;

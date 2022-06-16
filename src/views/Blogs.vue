@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.blog-card-wrap{
+   margin-top:80px;
+}
 .blog-cards {
   position: relative;
   .toggle-edit {

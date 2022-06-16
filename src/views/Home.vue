@@ -71,7 +71,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.home{
+margin-top:80px;
+}
 .blog-card-wrap{
+ 
   h3{
     font-weight:300;
     font-size:28px;

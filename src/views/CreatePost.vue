@@ -50,10 +50,6 @@
 import BlogCoverPreview from "../components/BlogCoverPreview";
 import Loading from "../components/Loading";
 import axios from "axios";
-import Quill from "quill";
-window.Quill = Quill;
-const ImageResize = require("quill-image-resize-module").default;
-Quill.register("modules/imageResize", ImageResize);
 export default {
   name: "CreatePost",
   data() {
@@ -62,7 +58,7 @@ export default {
       error: null,
       errorMsg: null,
       loading: null,
-      imageId:null,
+      imageId: null,
       editorSettings: {
         modules: {
           imageResize: {},
@@ -83,45 +79,43 @@ export default {
       this.$store.commit("createFileURL", URL.createObjectURL(this.file));
       const formData = new FormData();
       formData.append("files", this.file);
-       const token = window.localStorage.getItem("jwt");
+      const token = window.localStorage.getItem("jwt");
       axios
-        .post("https://multi-user-blog-backend.herokuapp.com/api/upload", formData, {
+        .post("http://localhost:1337/api/upload", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
-
           },
         })
         .then((response) => {
-           this.imageId = response.data[0].id;
+          this.imageId = response.data[0].id;
         })
         .catch((error) => {
           console.log(error);
         });
     },
     openPreview() {
-      console.log(this.$store.state.blogPhotoPreview)
       this.$store.commit("openPhotoPreview");
     },
-    imageHandler(file,Editor, cursorLocation, resetUploader) {
-       const formData = new FormData();
+    imageHandler(file, Editor, cursorLocation, resetUploader) {
+      const formData = new FormData();
       formData.append("files", file);
-       const token = window.localStorage.getItem("jwt");
+      const token = window.localStorage.getItem("jwt");
       axios
-        .post("https://multi-user-blog-backend.herokuapp.com/api/upload", formData, {
+        .post("http://localhost:1337/api/upload", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-         const downloadURL=`https://multi-user-blog-backend.herokuapp.com${response.data[0].url}`;
-         Editor.insertEmbed(cursorLocation, "image", downloadURL);
+          const downloadURL = `http://localhost:1337${response.data[0].url}`;
+          Editor.insertEmbed(cursorLocation, "image", downloadURL);
           resetUploader();
         })
         .catch((error) => {
           console.log(error);
         });
     },
-   uploadBlog() {
+    uploadBlog() {
       const token = window.localStorage.getItem("jwt");
       const timeElapsed = Date.now();
       const today = new Date(timeElapsed);
@@ -137,15 +131,21 @@ export default {
         },
       };
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
-        if (this.file) {
+        if (this.imageId) {
           axios
-            .post("https://multi-user-blog-backend.herokuapp.com/api/blogs", data, {
+            .post("http://localhost:1337/api/blogs", data, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             })
-            .then((response) => {
-              console.log(response);
+            .then(() => {
+              this.$store.commit("setBlogState", {
+                blogHTML: "Write your blog title here...",
+                blogTitle: "",
+                blogPhotoName: "",
+                subject: "",
+                blogPhotoFileURL: null,
+              });
               this.$router.push({ name: "Blogs" });
               return;
             })
@@ -153,22 +153,22 @@ export default {
               console.log(error);
               return;
             });
-        }
-        else{
+        } else {
           this.error = true;
-        this.errorMsg = "Please ensure you uploaded a cover photo!";
+          this.errorMsg = "Please ensure you uploaded a cover photo!";
+          setTimeout(() => {
+            this.error = false;
+          }, 5000);
+          return;
+        }
+        this.error = true;
+        this.errorMsg = "Please ensure Blog Title & Blog Post has been filled!";
         setTimeout(() => {
           this.error = false;
         }, 5000);
         return;
       }
-      this.error = true;
-      this.errorMsg = "Please ensure Blog Title & Blog Post has been filled!";
-      setTimeout(() => {
-        this.error = false;
-      }, 5000);
-      return;
-    }}
+    },
   },
   computed: {
     profileId() {
@@ -199,6 +199,7 @@ export default {
 
 <style lang="scss">
 .create-post {
+  margin-top: 80px;
   position: relative;
   height: 100%;
   button {
@@ -252,6 +253,11 @@ export default {
   .blog-info {
     display: flex;
     margin-bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
     input:nth-child(1) {
       min-width: 300px;
     }
@@ -270,6 +276,9 @@ export default {
       margin-left: 16px;
       position: relative;
       display: flex;
+      @media (max-width: 600px) {
+        margin-top: 15px;
+      }
       input {
         display: none;
       }

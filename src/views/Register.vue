@@ -26,7 +26,10 @@
           <email class="icon" />
         </div>
         <div class="input">
-          <input type="password" placeholder="Password" v-model="password" />
+        <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" />
+            <span class="eyeicon" @click="showPassword = !showPassword">
+            <i class="fa " :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
+      </span>
           <password class="icon" />
         </div>
         <div v-show="error" class="error">{{ this.errorMsg }}</div>
@@ -58,6 +61,7 @@ export default {
       password: "",
       error: null,
       errorMsg: "",
+      showPassword: false,
     };
   },
   methods: {
@@ -73,7 +77,7 @@ export default {
         this.error = false;
         this.errorMsg = "";
         try {
-         const res=  await this.axios.post(`https://multi-user-blog-backend.herokuapp.com/api/auth/local/register`, {
+         const res=  await this.axios.post(`http://localhost:1337/api/auth/local/register`, {
                             firstName: this.firstName,
                             lastName:this.lastName,
                             password: this.password,
