@@ -17,9 +17,10 @@
     <div class="blog-photo">
       <img 
         v-if="post.welcomeScreen"
+        alt="blogcover"
         :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
       />
-      <img  v-else :src='`http://localhost:1337${post.blogCoverPhoto}`'  alt="" />
+      <img  v-else :src='`http://localhost:1337${post.blogCoverPhoto}`'  alt="blogcover" />
     </div>
   </div>
 </template>

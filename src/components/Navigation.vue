@@ -10,7 +10,6 @@
         <ul v-show="!mobile">
           <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
           <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-
           <router-link v-if="user" class="link" :to="{ name: 'CreatePost' }"
             >Create Post</router-link
           >
@@ -18,7 +17,6 @@
             >Login/Register</router-link
           >
         </ul>
-        
         <div
           v-if="user"
           class="profile"
@@ -163,7 +161,7 @@ header {
         text-decoration: none;
       }
     }
-
+    
     .nav-links {
       position: relative;
       display: flex;

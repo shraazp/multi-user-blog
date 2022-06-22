@@ -10,23 +10,23 @@
       <h2>Create Your FireBlog Account</h2>
       <div class="inputs">
         <div class="input">
-          <input type="text" placeholder="First Name" v-model="firstName" />
+          <input type="text" placeholder="First Name" v-model="firstName" id="firstName" />
           <user class="icon" />
         </div>
         <div class="input">
-          <input type="text" placeholder="Last Name" v-model="lastName" />
+          <input type="text" placeholder="Last Name" v-model="lastName" id="lastName"/>
           <user class="icon" />
         </div>
         <div class="input">
-          <input type="text" placeholder="Username" v-model="username" />
+          <input type="text" placeholder="Username" v-model="username" id="userName" />
           <user class="icon" />
         </div>
         <div class="input">
-          <input type="text" placeholder="Email" v-model="email" />
+          <input type="text" placeholder="Email" v-model="email" id="email" />
           <email class="icon" />
         </div>
         <div class="input">
-        <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" />
+        <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" id="password"/>
             <span class="eyeicon" @click="showPassword = !showPassword">
             <i class="fa " :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
       </span>
@@ -42,15 +42,14 @@
 </template>
 
 <script>
-import email from "../assets/Icons/envelope-regular.svg";
-import password from "../assets/Icons/lock-alt-solid.svg";
-import user from "../assets/Icons/user-alt-light.svg";
+import axios from "axios";
 export default {
   name: "Register",
+  
   components: {
-    email,
-    password,
-    user,
+    email: () => import("../assets/Icons/envelope-regular.svg").default,
+    password: () => import("../assets/Icons/lock-alt-solid.svg").default,
+    user:()=>import("../assets/Icons/user-alt-light.svg").default,
   },
   data() {
     return {
@@ -77,7 +76,7 @@ export default {
         this.error = false;
         this.errorMsg = "";
         try {
-         const res=  await this.axios.post(`http://localhost:1337/api/auth/local/register`, {
+         const res=  await axios.post(`http://localhost:1337/api/auth/local/register`, {
                             firstName: this.firstName,
                             lastName:this.lastName,
                             password: this.password,

@@ -10,38 +10,43 @@
       <h2>Login to vueBlogs</h2>
       <div class="inputs">
         <div class="input">
-          <input type="text" placeholder="Email" v-model="email" />
+          <input type="text" id="email" placeholder="Email" v-model="email" />
           <email class="icon" />
         </div>
         <div class="input">
-          <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" />
-            <span class="eyeicon" @click="showPassword = !showPassword">
-            <i class="fa " :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
-      </span>
+          <input
+            id="password"
+            v-bind:type="[showPassword ? 'text' : 'password']"
+            v-model="password"
+          />
+          <span class="eyeicon" @click="showPassword = !showPassword">
+            <i
+              class="fa"
+              :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
+              aria-hidden="true"
+            ></i>
+          </span>
 
           <password class="icon" />
         </div>
 
         <div v-show="error" class="error">{{ this.errorMsg }}</div>
       </div>
-      <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }"
-        >Forgot your password?</router-link
-      >
       <button @click.prevent="signIn">Sign In</button>
       <div class="angle"></div>
     </form>
 
-    
     <div class="background"></div>
   </div>
 </template>
 
 <script>
-import email from "../assets/Icons/envelope-regular.svg";
-import password from "../assets/Icons/lock-alt-solid.svg";
 export default {
   name: "Login",
-  components: { email, password },
+  components: {
+    email: () => import("../assets/Icons/envelope-regular.svg"),
+    password: () => import("../assets/Icons/lock-alt-solid.svg"),
+  },
   data() {
     return {
       email: "",
@@ -52,29 +57,38 @@ export default {
     };
   },
   methods: {
-    async signIn(e) {
+    signIn(e) {
       e.preventDefault();
-      try {
-        const res = await this.axios.post(
-          `http://localhost:1337/api/auth/local`,
-          {
-            identifier: this.email,
-            password: this.password,
-          }
-        );
-        const { jwt } = res.data;
-        window.localStorage.setItem("jwt", jwt);
-        this.$store.dispatch("getCurrentUser");
-        this.$router.push({ name: "Home" });
-        this.error = false;
-        this.errorMsg = "";
-      } catch (error) {
-        console.log(error);
-        this.error = true;
-        this.password = "";
-        this.errorMsg = error.message;
-      }
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier: this.email,
+          password: this.password,
+        }),
+      };
+     fetch(`http://localhost:1337/api/auth/local`, requestOptions)
+        .then((response) => {return response.json()})  
+         .then((data) => {
+          if(data.error){ throw new Error(data.error.message)}
+          const jwt = data.jwt;
+          window.localStorage.setItem("jwt", jwt);
+          this.$store.dispatch("getCurrentUser");
+          this.$router.push({ name: "Home" });
+          this.error = false;
+          this.errorMsg = "";
+        })
+        .catch((error) => {
+          console.log(error)
+          this.error = true;
+          this.password = "";
+          this.errorMsg = error.message;
+        })
+       
+       
+      
     },
+    
   },
 };
 </script>

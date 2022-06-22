@@ -2,7 +2,7 @@
   <div class="modal" ref="modal">
     <div class="modal-content">
       <close @click="closePreview" class="icon" />
-      <img :src='`${this.blogCoverPhoto}`' alt="" />
+      <img :src='`${this.blogCoverPhoto}`' alt="blogcover" />
     </div>
   </div>
   

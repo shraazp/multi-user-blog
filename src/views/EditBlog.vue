@@ -23,7 +23,7 @@
         <vue-editor :editorOptions="editorSettings" v-model="blogHTML" useCustomImageHandler @image-added="imageHandler" />
       </div>
       <div class="blog-actions">
-        <button @click="updateBlog">Save Changes</button>
+        <button @click="updateBlog" class="update">Save Changes</button>
         <router-link class="router-button" :to="{ name: 'BlogPreview' }">Preview Changes</router-link>
       </div>
     </div>
@@ -33,11 +33,7 @@
 <script>
 import BlogCoverPreview from "../components/BlogCoverPreview";
 import Loading from "../components/Loading";
-import Quill from "quill";
 import axios from "axios";
-window.Quill = Quill;
-const ImageResize = require("quill-image-resize-module").default;
-Quill.register("modules/imageResize", ImageResize);
 export default {
   name: "CreatePost",
   data() {
@@ -60,6 +56,7 @@ export default {
     Loading,
   },
   async mounted() {
+    
     this.routeID = this.$route.params.blogid;
     this.currentBlog = await this.$store.state.blogPosts.filter((post) => {
       return post.blogID === this.routeID;
@@ -112,6 +109,7 @@ export default {
         });
     },
     updateBlog() {
+      
       this.loading = true;
       const token = window.localStorage.getItem("jwt");
       const timeElapsed = Date.now();
@@ -135,8 +133,7 @@ export default {
                 Authorization: `Bearer ${token}`,
               },
             })
-            .then((response) => {
-              console.log(response);
+            .then(() => {
               this.$store.dispatch("updatePost", this.routeID);
               this.loading = false;
               this.$store.commit("setBlogState", {

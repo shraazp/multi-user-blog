@@ -2,14 +2,14 @@
   <div class="blog-card" >
     <deleteModal v-if="modalActive" :blogId="this.post.blogID" v-on:close-modal="closeModal" />
     <div v-show="editPost && author" class="icons">
-      <div @click="editBlog" class="icon">
+      <div @click="editBlog" class="icon" id="edit">
         <Edit class="edit" />
       </div>
-      <div @click="modalActive=!modalActive" class="icon">
+      <div @click="modalActive=!modalActive" class="icon" id="delete">
         <Delete class="delete" />
       </div>
     </div>
-    <img :src="`http://localhost:1337${post.blogCoverPhoto}`" />
+    <img :src="`http://localhost:1337${post.blogCoverPhoto}`" alt="blogcover" />
     <div class="info" @click="viewPost">
       <h4>{{ post.blogTitle }}</h4>
       <h6>Posted on: {{ post.blogDate }}</h6>

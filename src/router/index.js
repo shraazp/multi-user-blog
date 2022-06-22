@@ -4,13 +4,11 @@ import Home from "../views/Home.vue";
 import Blogs from "../views/Blogs.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import ForgotPassword from "../views/ForgotPassword.vue"
 import Profile from "../views/Profile.vue";
 import CreatePost from "../views/CreatePost.vue";
 import BlogPreview from "../views/BlogPreview.vue";
 import ViewBlog from "../views/ViewBlog.vue";
 import EditBlog from "../views/EditBlog.vue";
-import ResetPassword from "../views/ResetPassword.vue";
 
 Vue.use(VueRouter);
 
@@ -34,22 +32,6 @@ const routes = [
     },
    
 
-  },
-  {
-    path: "/forgotPassword",
-    name: "ForgotPassword",
-    component: ForgotPassword,
-    meta:{
-      title:'ForgotPassword',
-    },
-  },
-  {
-    path: "/reset-password",
-    name: "ResetPassword",
-    component: ResetPassword,
-    meta:{
-      title:'ResetPassword',
-    },
   },
   {
     path: "/profile",
