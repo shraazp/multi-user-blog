@@ -9,6 +9,7 @@
 </template>
 
 <script>
+//preview of blog cover photo
 import close from "../assets/Icons/times-circle-light.svg";
 export default {
   components: {

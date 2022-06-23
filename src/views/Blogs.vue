@@ -15,6 +15,7 @@
 </template>
 
 <script>
+//Page contains all the blogs 
 import BlogCard from "../components/BlogCard.vue";
 export default {
   name: "Blogs",

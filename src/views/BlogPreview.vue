@@ -9,6 +9,7 @@
 </template>
 
 <script>
+//Preview the blog before creating or editing the post
 export default {
   name: "PostPreview",
   computed: {

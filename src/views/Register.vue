@@ -26,7 +26,7 @@
           <email class="icon" />
         </div>
         <div class="input">
-        <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" id="password"/>
+        <input v-bind:type="[showPassword ? 'text' : 'password']"  v-model="password" id="password" placeholder="password"/>
             <span class="eyeicon" @click="showPassword = !showPassword">
             <i class="fa " :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
       </span>

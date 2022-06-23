@@ -26,6 +26,7 @@ export default {
   },
   mounted() {},
   methods: {
+    //to add navigation bar
     checkRoute() {
       if (
         this.$route.name === "Login" ||

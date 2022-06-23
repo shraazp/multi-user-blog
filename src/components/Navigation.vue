@@ -161,7 +161,7 @@ header {
         text-decoration: none;
       }
     }
-    
+
     .nav-links {
       position: relative;
       display: flex;
@@ -188,7 +188,7 @@ header {
         border-radius: 50%;
         color: #fff;
         background-color: #303030;
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
          margin-right: 32px
         }
         span {

@@ -14,11 +14,11 @@ Vue.config.productionTip = false;
 
 let app;
 
-    if (! app) {
-        new Vue({
-            router,
-            store,
-            render: (h) => h(App)
-        }).$mount("#app");
-    }
+if (! app) {
+    new Vue({
+        router,
+        store,
+        render: (h) => h(App)
+    }).$mount("#app");
+}
 

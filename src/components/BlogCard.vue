@@ -1,11 +1,15 @@
-<template>
-  <div class="blog-card" >
-    <deleteModal v-if="modalActive" :blogId="this.post.blogID" v-on:close-modal="closeModal" />
+ <template>
+  <div class="blog-card">
+    <deleteModal
+      v-if="modalActive"
+      :blogId="this.post.blogID"
+      v-on:close-modal="closeModal"
+    />
     <div v-show="editPost && author" class="icons">
       <div @click="editBlog" class="icon" id="edit">
         <Edit class="edit" />
       </div>
-      <div @click="modalActive=!modalActive" class="icon" id="delete">
+      <div @click="modalActive = !modalActive" class="icon" id="delete">
         <Delete class="delete" />
       </div>
     </div>
@@ -32,37 +36,42 @@ import deleteModal from "./deleteModal.vue";
 export default {
   name: "blogCard",
   props: ["post"],
-  data(){
-    return{
-modalActive:false
-    }
+  data() {
+    return {
+      modalActive: false,
+    };
   },
   components: {
     Arrow,
     Edit,
     Delete,
-    deleteModal
+    deleteModal,
   },
-  computed:{
-    
-    editPost(){
+  computed: {
+    editPost() {
       return this.$store.state.editPost;
     },
-    author(){
-      return this.post.blogEmail===this.$store.state.profileEmail
-    }
+    author() {
+      return this.post.blogEmail === this.$store.state.profileEmail;
+    },
   },
-  methods:{
+  methods: {
     editBlog() {
-      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
+      this.$router.push({
+        name: "EditBlog",
+        params: { blogid: this.post.blogID },
+      });
     },
     closeModal() {
       this.modalActive = !this.modalActive;
     },
-    viewPost(){
-       this.$router.push({ name: 'ViewBlog', params: { blogID: this.post.blogID } });
-    }
-  }
+    viewPost() {
+      this.$router.push({
+        name: "ViewBlog",
+        params: { blogID: this.post.blogID },
+      });
+    },
+  },
 };
 </script>
 
@@ -75,10 +84,10 @@ modalActive:false
   border-radius: 8px;
   background-color: #fff;
   min-height: 420px;
- transition:  0.2s ease;
+  transition: 0.2s ease;
   &:hover {
-    transform: scale(1.1); 
-    z-index:99;
+    transform: scale(1.1);
+    z-index: 99;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.6);
   }

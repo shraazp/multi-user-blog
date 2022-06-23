@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for views/CreatePost.vue</title>
+    <title>Code coverage report for views/EditBlog.vue</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">views</a> CreatePost.vue</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">views</a> EditBlog.vue</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -373,20 +373,7 @@
 <a name='L308'></a><a href='#L308'>308</a>
 <a name='L309'></a><a href='#L309'>309</a>
 <a name='L310'></a><a href='#L310'>310</a>
-<a name='L311'></a><a href='#L311'>311</a>
-<a name='L312'></a><a href='#L312'>312</a>
-<a name='L313'></a><a href='#L313'>313</a>
-<a name='L314'></a><a href='#L314'>314</a>
-<a name='L315'></a><a href='#L315'>315</a>
-<a name='L316'></a><a href='#L316'>316</a>
-<a name='L317'></a><a href='#L317'>317</a>
-<a name='L318'></a><a href='#L318'>318</a>
-<a name='L319'></a><a href='#L319'>319</a>
-<a name='L320'></a><a href='#L320'>320</a>
-<a name='L321'></a><a href='#L321'>321</a>
-<a name='L322'></a><a href='#L322'>322</a>
-<a name='L323'></a><a href='#L323'>323</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<a name='L311'></a><a href='#L311'>311</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -696,19 +683,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable no-unused-vars */
-<span class="missing-if-branch" title="if path not taken" >I</span>&lt;template&gt;
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="missing-if-branch" title="if path not taken" >I</span>&lt;template&gt;
   &lt;div class="create-post"&gt;
     &lt;BlogCoverPreview v-show="this.$store.state.blogPhotoPreview" /&gt;
     &lt;Loading v-show="loading" /&gt;
@@ -720,36 +695,21 @@
         &lt;input type="text" placeholder="Enter Blog Title" v-model="blogTitle" /&gt;
         &lt;div class="upload-file"&gt;
           &lt;label for="blog-photo"&gt;Upload Cover Photo&lt;/label&gt;
-          &lt;input
-            type="file"
-            ref="blogPhoto"
-            id="blog-photo"
-            @change="fileChange"
-            accept=".png, .jpg, ,jpeg"
-          /&gt;
-          &lt;button
-            @click="openPreview"
-            class="preview"
-            :class="{ 'button-inactive': !this.$store.state.blogPhotoFileURL }"
-          &gt;
+          &lt;input type="file" ref="blogPhoto" id="blog-photo" @change="fileChange" accept=".png, .jpg, ,jpeg" /&gt;
+          &lt;button @click="openPreview" class="preview" :class="{ 'button-inactive': !this.$store.state.blogPhotoFileURL }"&gt;
             Preview Photo
           &lt;/button&gt;
           &lt;span&gt;File Chosen: {{ this.$store.state.blogPhotoName }}&lt;/span&gt;
+          
         &lt;/div&gt;
       &lt;/div&gt;
+      
       &lt;div class="editor"&gt;
-        &lt;vue-editor
-          :editorOptions="editorSettings"
-          v-model="blogHTML"
-          useCustomImageHandler
-          @image-added="imageHandler"
-        /&gt;
+        &lt;vue-editor :editorOptions="editorSettings" v-model="blogHTML" useCustomImageHandler @image-added="imageHandler" /&gt;
       &lt;/div&gt;
       &lt;div class="blog-actions"&gt;
-        &lt;button @click="uploadBlog" class="publish"&gt;Publish Blog&lt;/button&gt;
-        &lt;router-link class="router-button" :to="{ name: 'BlogPreview' }"
-          &gt;Post Preview&lt;/router-link
-        &gt;
+        &lt;button @click="updateBlog" class="update"&gt;Save Changes&lt;/button&gt;
+        &lt;router-link class="router-button" :to="{ name: 'BlogPreview' }"&gt;Preview Changes&lt;/router-link&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -767,7 +727,8 @@ export default {
       error: null,
       errorMsg: null,
       loading: null,
-      imageId: null,
+      routeID: null,
+      currentBlog: null,
       editorSettings: {
         modules: {
           imageResize: {},
@@ -779,6 +740,14 @@ export default {
     BlogCoverPreview,
     Loading,
   },
+  async mounted() {
+    
+    this.routeID = this.$route.params.blogid;
+    this.currentBlog = await this.$store.state.blogPosts.filter((post) =&gt; {
+      return post.blogID === this.routeID;
+    });
+    this.$store.commit("setBlogState", this.currentBlog[0]);
+  },
   methods: {
     fileChange(e) {
       e.preventDefault();
@@ -788,7 +757,7 @@ export default {
       this.$store.commit("createFileURL", URL.createObjectURL(this.file));
       const formData = new FormData();
       formData.append("files", this.file);
-      const token = window.localStorage.getItem("jwt");
+       const token = window.localStorage.getItem("jwt");
       axios
         .post("http://localhost:1337/api/upload", formData, {
           headers: {
@@ -796,7 +765,7 @@ export default {
           },
         })
         .then((response) =&gt; {
-          this.imageId = response.data[0].id;
+           this.imageId = response.data[0].id;
         })
         .catch((error) =&gt; {
           console.log(error);
@@ -805,10 +774,10 @@ export default {
     openPreview() {
       this.$store.commit("openPhotoPreview");
     },
-    imageHandler(file, Editor, cursorLocation, resetUploader) {
-      const formData = new FormData();
+   imageHandler(file,Editor, cursorLocation, resetUploader) {
+       const formData = new FormData();
       formData.append("files", file);
-      const token = window.localStorage.getItem("jwt");
+       const token = window.localStorage.getItem("jwt");
       axios
         .post("http://localhost:1337/api/upload", formData, {
           headers: {
@@ -816,15 +785,17 @@ export default {
           },
         })
         .then((response) =&gt; {
-          const downloadURL = `http://localhost:1337${response.data[0].url}`;
-          Editor.insertEmbed(cursorLocation, "image", downloadURL);
+         const downloadURL=`http://localhost:1337${response.data[0].url}`;
+         Editor.insertEmbed(cursorLocation, "image", downloadURL);
           resetUploader();
         })
         .catch((error) =&gt; {
           console.log(error);
         });
     },
-    uploadBlog() {
+    updateBlog() {
+      
+      this.loading = true;
       const token = window.localStorage.getItem("jwt");
       const timeElapsed = Date.now();
       const today = new Date(timeElapsed);
@@ -840,14 +811,16 @@ export default {
         },
       };
       if (this.blogTitle.length !== 0 &amp;&amp; this.blogHTML.length !== 0) {
-        if (this.imageId) {
+        if (this.$store.state.blogPhotoFileURL) {
           axios
-            .post("http://localhost:1337/api/blogs", data, {
+            .put(`http://localhost:1337/api/blogs/${this.routeID}`, data, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             })
             .then(() =&gt; {
+              this.$store.dispatch("updatePost", this.routeID);
+              this.loading = false;
               this.$store.commit("setBlogState", {
                 blogHTML: "Write your blog title here...",
                 blogTitle: "",
@@ -855,29 +828,29 @@ export default {
                 subject: "",
                 blogPhotoFileURL: null,
               });
-              this.$router.push({ name: "Blogs" });
+              this.$router.push({ name: "Blogs"});
               return;
             })
             .catch((error) =&gt; {
               console.log(error);
               return;
             });
-        } else {
-          this.error = true;
-          this.errorMsg = "Please ensure you uploaded a cover photo!";
-          setTimeout(() =&gt; {
-            this.error = false;
-          }, 5000);
-          return;
         }
-        this.error = true;
-        this.errorMsg = "Please ensure Blog Title &amp; Blog Post has been filled!";
+        else{
+          this.error = true;
+        this.errorMsg = "Please ensure you uploaded a cover photo!";
         setTimeout(() =&gt; {
           this.error = false;
         }, 5000);
         return;
       }
-    },
+      this.error = true;
+      this.errorMsg = "Please ensure Blog Title &amp; Blog Post has been filled!";
+      setTimeout(() =&gt; {
+        this.error = false;
+      }, 5000);
+      return;
+    }}
   },
   computed: {
     profileId() {
@@ -908,7 +881,6 @@ export default {
 &nbsp;
 &lt;style lang="scss"&gt;
 .create-post {
-  margin-top: 80px;
   position: relative;
   height: 100%;
   button {
@@ -962,11 +934,6 @@ export default {
   .blog-info {
     display: flex;
     margin-bottom: 32px;
-    display: flex;
-    flex-direction: row;
-    @media (max-width: 600px) {
-      flex-direction: column;
-    }
     input:nth-child(1) {
       min-width: 300px;
     }
@@ -985,9 +952,6 @@ export default {
       margin-left: 16px;
       position: relative;
       display: flex;
-      @media (max-width: 600px) {
-        margin-top: 15px;
-      }
       input {
         display: none;
       }

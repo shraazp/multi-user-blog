@@ -25,7 +25,8 @@ describe(' create blog component', () => {
             blogPhotoPreview: null,
             profileId: 13,
             profileUsername: 'shravya',
-            profileEmail: 'shravyamaradithaya@gmail.com'
+            profileEmail: 'shravyamaradithaya@gmail.com',
+            imageId: 15
         }
         mutations = {
             setBlogState: jest.fn()
@@ -40,9 +41,6 @@ describe(' create blog component', () => {
         const wrapper = shallowMount(CreatePost, {
             store,
             localVue,
-            data() {
-                return {imageId: 15}
-            },
             methods: {
                 updateBlog: mockMethod
             },

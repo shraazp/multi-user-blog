@@ -18,6 +18,7 @@
             id="password"
             v-bind:type="[showPassword ? 'text' : 'password']"
             v-model="password"
+            placeholder="password"
           />
           <span class="eyeicon" @click="showPassword = !showPassword">
             <i

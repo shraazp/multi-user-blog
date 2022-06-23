@@ -33,7 +33,11 @@
 <script>
 import BlogCoverPreview from "../components/BlogCoverPreview";
 import Loading from "../components/Loading";
+import Quill from "quill";
 import axios from "axios";
+window.Quill = Quill;
+const ImageResize = require("quill-image-resize-module").default;
+Quill.register("modules/imageResize", ImageResize);
 export default {
   name: "CreatePost",
   data() {
@@ -56,7 +60,6 @@ export default {
     Loading,
   },
   async mounted() {
-    
     this.routeID = this.$route.params.blogid;
     this.currentBlog = await this.$store.state.blogPosts.filter((post) => {
       return post.blogID === this.routeID;
@@ -64,6 +67,7 @@ export default {
     this.$store.commit("setBlogState", this.currentBlog[0]);
   },
   methods: {
+    //to update the image in media library
     fileChange(e) {
       e.preventDefault();
       this.file = this.$refs.blogPhoto.files[0];
@@ -86,6 +90,7 @@ export default {
           console.log(error);
         });
     },
+    //to show the blog preview
     openPreview() {
       this.$store.commit("openPhotoPreview");
     },
@@ -108,8 +113,8 @@ export default {
           console.log(error);
         });
     },
+    //to update the blog 
     updateBlog() {
-      
       this.loading = true;
       const token = window.localStorage.getItem("jwt");
       const timeElapsed = Date.now();

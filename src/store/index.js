@@ -25,7 +25,8 @@ export default new Vuex.Store({
         profileLastName: null,
         profileUsername: null,
         profileId: null,
-        profileInitials: null
+        profileInitials: null,
+        imageId: null,
     },
     getters: {
         blogPostsFeed(state) {
@@ -85,6 +86,9 @@ export default new Vuex.Store({
         },
         changeUsername(state, payload) {
             state.profileUsername = payload;
+        },
+        setImageId(state,payload){
+            state.imageId=payload;
         }
 
     },

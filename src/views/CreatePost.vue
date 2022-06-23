@@ -58,7 +58,6 @@ export default {
       error: null,
       errorMsg: null,
       loading: null,
-      imageId: null,
       editorSettings: {
         modules: {
           imageResize: {},
@@ -71,6 +70,7 @@ export default {
     Loading,
   },
   methods: {
+    //to add image into strapi media library
     fileChange(e) {
       e.preventDefault();
       this.file = this.$refs.blogPhoto.files[0];
@@ -87,7 +87,8 @@ export default {
           },
         })
         .then((response) => {
-          this.imageId = response.data[0].id;
+      
+            this.$store.commit("setImageId",  response.data[0].id);
         })
         .catch((error) => {
           console.log(error);
@@ -115,6 +116,7 @@ export default {
           console.log(error);
         });
     },
+    //to add a new post
     uploadBlog() {
       const token = window.localStorage.getItem("jwt");
       const timeElapsed = Date.now();
@@ -130,6 +132,7 @@ export default {
           date: today.toDateString(),
         },
       };
+      console.log(this.imageId)
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
         if (this.imageId) {
           axios
@@ -173,6 +176,9 @@ export default {
   computed: {
     profileId() {
       return this.$store.state.profileId;
+    },
+    imageId(){
+      return this.$store.state.imageId;
     },
     blogCoverPhotoName() {
       return this.$store.state.blogPhotoName;
