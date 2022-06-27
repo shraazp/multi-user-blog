@@ -13,7 +13,7 @@
       <h4>Author: {{ this.currentBlog[0].blogAuthor }}</h4>
       <img
         class="blog-image"
-        :src="`http://localhost:1337${this.currentBlog[0].blogCoverPhoto}`"
+        :src="`https://multi-user-blog-backend.herokuapp.com${this.currentBlog[0].blogCoverPhoto}`"
         alt="blogcover"
       />
       <div

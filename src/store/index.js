@@ -98,7 +98,7 @@ export default new Vuex.Store({
             const query = qs.stringify({
                 populate: '*',
             }, {encodeValuesOnly: true});
-            const dbResults = await(await axios.get(`http://localhost:1337/api/blogs?${query}`)).data.data;
+            const dbResults = await(await axios.get(`https://multi-user-blog-backend.herokuapp.com/api/blogs?${query}`)).data.data;
             dbResults.forEach((doc) => {
                 if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
                     const data = {
@@ -132,7 +132,7 @@ export default new Vuex.Store({
             commit
         }, payload) {
             const token = window.localStorage.getItem('jwt');
-            const {data} = await axios.delete(`http://localhost:1337/api/blogs/${payload}`, {
+            const {data} = await axios.delete(`https://multi-user-blog-backend.herokuapp.com/api/blogs/${payload}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -142,7 +142,7 @@ export default new Vuex.Store({
         },
         async getCurrentUser({commit}) {
             const token = window.localStorage.getItem('jwt')
-            const {data} = await axios.get(' http://localhost:1337/api/users/me', {
+            const {data} = await axios.get(' https://multi-user-blog-backend.herokuapp.com/api/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -161,7 +161,7 @@ export default new Vuex.Store({
             formData.append('firstName', state.profileFirstName);
             formData.append('lastName', state.profileLastName);
             try {
-                await axios.put(`http://localhost:1337/api/users/${
+                await axios.put(`https://multi-user-blog-backend.herokuapp.com/api/users/${
                     state.profileId
                 }`, formData, {
                     headers: {

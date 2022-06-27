@@ -81,7 +81,7 @@ export default {
       formData.append("files", this.file);
       const token = window.localStorage.getItem("jwt");
       axios
-        .post("http://localhost:1337/api/upload", formData, {
+        .post("https://multi-user-blog-backend.herokuapp.com/api/upload", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -102,13 +102,13 @@ export default {
       formData.append("files", file);
       const token = window.localStorage.getItem("jwt");
       axios
-        .post("http://localhost:1337/api/upload", formData, {
+        .post("https://multi-user-blog-backend.herokuapp.com/api/upload", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          const downloadURL = `http://localhost:1337${response.data[0].url}`;
+          const downloadURL = `https://multi-user-blog-backend.herokuapp.com${response.data[0].url}`;
           Editor.insertEmbed(cursorLocation, "image", downloadURL);
           resetUploader();
         })
@@ -136,7 +136,7 @@ export default {
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
         if (this.imageId) {
           axios
-            .post("http://localhost:1337/api/blogs", data, {
+            .post("https://multi-user-blog-backend.herokuapp.com/api/blogs", data, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

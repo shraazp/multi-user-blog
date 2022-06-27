@@ -76,7 +76,7 @@ export default {
         this.error = false;
         this.errorMsg = "";
         try {
-         const res=  await axios.post(`http://localhost:1337/api/auth/local/register`, {
+         const res=  await axios.post(`https://multi-user-blog-backend.herokuapp.com/api/auth/local/register`, {
                             firstName: this.firstName,
                             lastName:this.lastName,
                             password: this.password,

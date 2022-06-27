@@ -68,7 +68,7 @@ export default {
           password: this.password,
         }),
       };
-     fetch(`http://localhost:1337/api/auth/local`, requestOptions)
+     fetch(`https://multi-user-blog-backend.herokuapp.com/api/auth/local`, requestOptions)
         .then((response) => {return response.json()})  
          .then((data) => {
           if(data.error){ throw new Error(data.error.message)}

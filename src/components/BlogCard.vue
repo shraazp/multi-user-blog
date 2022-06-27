@@ -13,7 +13,7 @@
         <Delete class="delete" />
       </div>
     </div>
-    <img :src="`http://localhost:1337${post.blogCoverPhoto}`" alt="blogcover" />
+    <img :src="`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`" alt="blogcover" />
     <div class="info" @click="viewPost">
       <h4>{{ post.blogTitle }}</h4>
       <h6>Posted on: {{ post.blogDate }}</h6>

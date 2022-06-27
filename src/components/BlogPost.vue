@@ -20,7 +20,7 @@
         alt="blogcover"
         :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
       />
-      <img  v-else :src='`http://localhost:1337${post.blogCoverPhoto}`'  alt="blogcover" />
+      <img  v-else :src='`https://multi-user-blog-backend.herokuapp.com${post.blogCoverPhoto}`'  alt="blogcover" />
     </div>
   </div>
 </template>
